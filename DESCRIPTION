@@ -1,0 +1,13 @@
+Package: LMDX
+Type: Package
+Title: An R Implementation of LMDX 
+Version: 0.1.0
+Author@R: c(
+    person("Christophe", "Regouby", email = "christophe.regouby@free.fr", role = "ctb")
+  )
+Maintainer: Christophe Regouby <christophe.regouby@free.fr>
+Description: LMDX turn a text language model into a document language model.
+    LMDX manages your questions and answers to pdf document through a LLM online model.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
