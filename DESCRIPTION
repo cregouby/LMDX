@@ -14,8 +14,14 @@ LazyData: true
 Imports: 
   chattr,
   dplyr,
-  purrr
-Suggests: testthat, fs, glue
+  glue,
+  pdftools,
+  purrr,
+  tidyr
+Suggests: 
+    testthat (>= 3.0.0),
+    fs
 URL: https://github.com/cregouby/LMDX/
 BugReports: https://github.com/cregouby/LMDX/issues
 RoxygenNote: 7.2.3
+Config/testthat/edition: 3
