@@ -3,10 +3,9 @@
 #' @param pdf_data a data frame output of `pdftools::pdf_data()`
 #' @param segment either "word" or "sentence", the text segment to assemble
 #'
-#' @return
+#' @return the text formated in wide wide 
 #' @export
 #'
-#' @examples
 #' @importFrom dplyr mutate group_by summarize %>%
 #' @importFrom tidyr replace_na
 pivot_longer_to_segment <- function(pdf_data, segment = "word") {
