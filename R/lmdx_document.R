@@ -27,8 +27,9 @@ pivot_longer_to_segment <- function(pdf_data, segment = "word") {
 
 #' Turn a pdf_data into LMDX prompt <document> part
 #'
-#' @param pdf_data a data frame output of `pdftools::pdf_data()`
-#' @param segment either "word" or "sentence", the text segment to assemble
+#' @param pdf_data a data frame output of `pdftools::pdf_data()`.
+#' @param segment either "word" or "sentence", the text segment to assemble.
+#' @param chunk currently "page", not used.
 #'
 #' @return a character vector being the document part of the prompt 
 #' @export

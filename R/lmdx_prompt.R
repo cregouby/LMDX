@@ -1,7 +1,8 @@
 #' Turn a pdf document into LMDX prompt 
 #'
 #' @param document a pdf document
-#' @param taxonomy an entity taxonomy to extract from the document 
+#' @param taxonomy an entity taxonomy to extract from the document.
+#' @param ... used to pass parameter to the underlying `lmdx_document()` function.
 #'
 #' @return the prompt to pass to the LLM
 #' @export

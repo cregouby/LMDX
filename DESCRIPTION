@@ -15,6 +15,7 @@ Imports:
   chattr,
   dplyr,
   glue,
+  jsonlite,
   pdftools,
   purrr,
   tidyr
