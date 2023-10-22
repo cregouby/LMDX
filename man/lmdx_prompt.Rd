@@ -11,7 +11,9 @@ lmdx_prompt(document, taxonomy, ...)
 \arguments{
 \item{document}{a pdf document}
 
-\item{taxonomy}{an entity taxonomy to extract from the document}
+\item{taxonomy}{an entity taxonomy to extract from the document.}
+
+\item{...}{used to pass parameter to the underlying `lmdx_document()` function.}
 
 \item{entities}{an entity taxonomy to extract from the document}
 }

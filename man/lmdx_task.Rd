@@ -10,6 +10,8 @@ lmdx_task(taxonomy, ...)
 \item{taxonomy}{either 
 - a json representing the schema of the entity to extract
 - a value within `VRDU_Ad_Buy`, `VRDU_Registration` or `CORD` for the schema used in original paper.}
+
+\item{...}{unused}
 }
 \value{
 a character vector being the task part of the prompt

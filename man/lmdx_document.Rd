@@ -7,9 +7,11 @@
 lmdx_document(pdf_data, segment = "word", chunk = "page")
 }
 \arguments{
-\item{pdf_data}{a data frame output of `pdftools::pdf_data()`}
+\item{pdf_data}{a data frame output of `pdftools::pdf_data()`.}
 
-\item{segment}{either "word" or "sentence", the text segment to assemble}
+\item{segment}{either "word" or "sentence", the text segment to assemble.}
+
+\item{chunk}{currently "page", not used.}
 }
 \value{
 a character vector being the document part of the prompt
