@@ -6,12 +6,12 @@
 #' @return the text formated in wide wide 
 #' @export
 #'
-#' @importFrom dplyr mutate group_by summarize %>%
+#' @importFrom dplyr mutate group_by summarize lag lead %>%
 #' @importFrom tidyr replace_na
 pivot_longer_to_segment <- function(pdf_data, segment) {
-  has_font_col <- segment == "font" & "font" %in% names(pdf_data)
+  has_needed_font_col <- segment != "font" | "font_name" %in% names(pdf_data)
   stopifnot(
-    "`font` type segments requires `pdf_data()` extraction with option `font_info = TRUE`" = !has_font_col
+    "`font` type segments requires `pdf_data()` extraction with option `font_info = TRUE`" = has_needed_font_col
   )
   pdf_data <- pdf_data %>% mutate(
       x_center = trunc(x + width / 2),
@@ -32,8 +32,8 @@ pivot_longer_to_segment <- function(pdf_data, segment) {
       ),
     "font" = pdf_data %>%
       mutate(
-        sentence_id = lag(cumsum(!space)) %>% tidyr::replace_na(0),
-        font_id = lag(cumsum(lead(font_name) != font_name)) %>% tidyr::replace_na(0)
+        sentence_id = lag(cumsum(!space)) %>% replace_na(0),
+        font_id = lag(cumsum(dplyr::lead(font_name) != font_name)) %>% replace_na(0)
       ) %>%
       group_by(sentence_id + font_id) %>%
       summarize(
