@@ -4,12 +4,12 @@
 \alias{pivot_longer_to_segment}
 \title{Turn a pdf_data long format into wide format per segment}
 \usage{
-pivot_longer_to_segment(pdf_data, segment = "word")
+pivot_longer_to_segment(pdf_data, segment)
 }
 \arguments{
 \item{pdf_data}{a data frame output of `pdftools::pdf_data()`}
 
-\item{segment}{either "word" or "sentence", the text segment to assemble}
+\item{segment}{either "word" , "font", or "line", the text segment to assemble}
 }
 \value{
 the text formated in wide wide

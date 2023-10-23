@@ -4,7 +4,7 @@
 \alias{lmdx_document}
 \title{Turn a pdf_data into LMDX prompt <document> part}
 \usage{
-lmdx_document(pdf_data, segment = "word")
+lmdx_document(pdf_data, segment)
 }
 \arguments{
 \item{pdf_data}{a data frame output of `pdftools::pdf_data()`.}

@@ -4,14 +4,14 @@
 \alias{lmdx_prompt}
 \title{Turn a pdf document into LMDX prompt}
 \usage{
-lmdx_prompt(document, taxonomy, ...)
+lmdx_prompt(document, taxonomy, segment = "word")
 }
 \arguments{
 \item{document}{a pdf document}
 
 \item{taxonomy}{an entity taxonomy to extract from the document.}
 
-\item{...}{used to pass parameter to the underlying `lmdx_document()` function.}
+\item{segment}{used to pass parameter to the underlying `lmdx_document()` function.}
 }
 \value{
 the prompt to pass to the LLM
