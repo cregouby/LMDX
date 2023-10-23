@@ -17,7 +17,7 @@ test_that("lmdx_document works for word", {
 lmdx_document})
 
 test_that("lmdx_document works for sentence", {
-  expect_error(lmdx_document(pdf_data, segment = "sentence"), 
+  expect_error(lmdx_document(pdf_data, segment = "line"), 
                NA)
 })
 
@@ -27,6 +27,6 @@ test_that("lmdx_document works for word for a single page document", {
 lmdx_document})
 
 test_that("lmdx_document works for sentence", {
-  expect_error(lmdx_document(pdf_single, segment = "sentence"), 
+  expect_error(lmdx_document(pdf_single, segment = "line"), 
                NA)
 })

@@ -1,20 +1,30 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # LMDX
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-A R implementation of LMDX ([Perot et
-al. 2023](https://arxiv.org/pdf/2309.10952.pdf)). You provides a pdf
-page or file in, and a decoding json schema, and get all entities
-extracted from the pdf.
+A R implementation of LMDX ([Perot et al. 2023](https://arxiv.org/pdf/2309.10952.pdf)).
+You provides a pdf page or file in, and a decoding json schema, and get all entities extracted from the pdf.
+
 
 ## Installation
 
-You can install the development version of LMDX and its prerequisites
-from [GitHub](https://github.com/) with:
+You can install the development version of LMDX and its prerequisites from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
@@ -26,7 +36,7 @@ pak::pak("cregouby/LMDX")
 
 This is a basic example which shows you how to solve a common problem:
 
-``` r
+```{r example}
 library(LMDX)
 document <- system.file("extdata", "Short-refcard_1.pdf", package = "LMDX")
 taxonomy <- jsonlite::minify('{
@@ -47,3 +57,4 @@ taxonomy <- jsonlite::minify('{
 }')
 prompt <- lmdx_prompt(document, taxonomy, segment = "line")
 ```
+
