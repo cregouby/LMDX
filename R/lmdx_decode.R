@@ -12,13 +12,15 @@ remove_layout <- function(df) {
     mutate(across(where(is.data.frame), ~remove_layout(.x)))
 }
 
+#' @export
 #' @importFrom purrr map_chr map_dfr
-decode_all_sample <- function(response, taxonomy) {
+decode_all_sample <- function(response) {
   removed_trailer <- map_chr(response, ~stringr::str_remove(.x, "[^}]+$"))
   response_layout_df <- map_dfr(removed_trailer, ~jsonlite::fromJSON(.x))
   remove_layout(response_layout_df)
 }
 
+#' @export
 #' @importFrom dplyr summarize_all
 majority_vote <- function(response_df) {
   response_df %>% summarize_all(~names(which.max(table(.))))
