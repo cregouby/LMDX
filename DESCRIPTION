@@ -18,6 +18,8 @@ Imports:
   jsonlite,
   pdftools,
   purrr,
+  rlang,
+  stringr,
   tidyr
 Suggests: 
     testthat (>= 3.0.0),
