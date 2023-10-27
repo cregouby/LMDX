@@ -31,6 +31,35 @@ test_that("pivot_longer_to_segment provides an explicit error if font extraction
                "extraction with option `font_info")
 })
 
+test_that("pivot_to_short_segment works for word", {
+  expect_error(pivoted_data <- pivot_to_short_segment(pdf_data[[1]], segment = "word"), 
+               NA)
+  expect_type(pivoted_data, "character")
+  expect_length(pivoted_data, 12L)
+})
+
+test_that("pivot_to_short_segment works for line", {
+  expect_error(pivoted_data <- pivot_to_short_segment(pdf_data[[2]], segment = "line"), 
+               NA)
+  expect_type(pivoted_data, "character")
+  expect_length(pivoted_data, 2L)
+})
+
+test_that("pivot_to_short_segment works for font", {
+  # CI pipeline relies on a debian version with older libpoppler that do not allow option `font_info = TRUE` 
+  skip_on_os("linux")
+  pdf_font <- pdftools::pdf_data(pdf = system.file("extdata", "Short-refcard_1.pdf", package = "LMDX"), font_info = TRUE)
+  expect_error(pivoted_data <- pivot_to_short_segment(pdf_font[[1]], segment = "font"), 
+               NA)
+  expect_type(pivoted_data, "character")
+  expect_length(pivoted_data, 4L)
+})
+
+test_that("pivot_to_short_segment provides an explicit error if font extraction is missing", {
+  expect_error(pivoted_data <- pivot_to_short_segment(pdf_data[[2]], segment = "font"), 
+               "extraction with option `font_info")
+})
+
 test_that("lmdx_document works for word", {
   expect_error(lmdx_doc <- lmdx_document(pdf_data, segment = "word"), 
                NA)

@@ -69,11 +69,19 @@ capability.
 
 We query 16 generation of the model with a temperature of 0.5.
 
-`{{r}} library(chattr) response <- ch_submit_job(   prompt = prompt,    defaults = chattr_defaults(model_arguments = list("temperature" = 0.5))   )`
+``` r
+library(chattr)
+response <- ch_submit_job(
+  prompt = prompt, 
+  defaults = chattr_defaults(model_arguments = list("temperature" = 0.5))
+  )
+```
 
 ## Step 3 : Decode the output
 
 This consists in decoding the output and parsing it to a majority-vote
 engine :
 
-`{{r}} r_reference_card_df <- majority_vote(decode_all_sample(response))`
+``` r
+r_reference_card_df <- majority_vote(decode_all_sample(response))
+```

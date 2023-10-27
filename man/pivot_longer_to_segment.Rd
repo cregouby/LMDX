@@ -12,7 +12,7 @@ pivot_longer_to_segment(pdf_data, segment)
 \item{segment}{either "word" , "font", or "line", the text segment to assemble}
 }
 \value{
-the text formated in wide wide
+the text formatted in wide wide
 }
 \description{
 Turn a pdf_data long format into wide format per segment

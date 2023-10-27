@@ -1,9 +1,35 @@
+#' Chunk a pdf_data long format into a list of wide format per segment.
+#' 
+#' 
+#'
+#' @param pdf_data a data frame output of `pdftools::pdf_data()`
+#' @param segment either "word" , "font", or "line", the text segment to assemble
+#' @param max_lines the text segment max chunk size in lines
+#'
+#' @return the list of text formatted in wide format chunk-ed into no more than `max_lines`. 
+#' @export
+#'
+#' @importFrom dplyr mutate group_by summarize lag lead %>%
+#' @importFrom tidyr replace_na
+pivot_to_short_segment <- function(pdf_data_df, segment, max_lines = 100) {
+  pivot_lts <- pivot_longer_to_segment(pdf_data_df, segment)
+  n_lines <- stringr::str_count(pivot_lts, "\\n")
+  n_words <- stringr::str_count(pivot_lts, "( |\\n)")
+  if (n_lines > max_lines) {
+      group <- cut(seq(nrow(pdf_data_df)), 1 + nrow(pdf_data_df) %/% max_lines) %>% as.numeric()
+      # group <- group[1:(length(group) - 1)]
+    map_chr(seq(1 + n_lines %/% max_lines), ~pivot_longer_to_segment(pdf_data_df[(group == .x), ], segment) )
+  } else {
+    list(pivot_lts)
+  }
+}
+  
 #' Turn a pdf_data long format into wide format per segment
 #'
 #' @param pdf_data a data frame output of `pdftools::pdf_data()`
 #' @param segment either "word" , "font", or "line", the text segment to assemble
 #'
-#' @return the text formated in wide wide 
+#' @return the text segmented in wide format, trailed with the segment layout values in the format "x|y".
 #' @export
 #'
 #' @importFrom dplyr mutate group_by summarize lag lead %>%
@@ -42,7 +68,6 @@ pivot_longer_to_segment <- function(pdf_data, segment) {
         y_center = trunc(mean(y_center))
       )
   )
-  
   paste0(pivoted_data$text, " ", pivoted_data$x_center, "|", pivoted_data$y_center, collapse = "\n")
   
 }
@@ -51,19 +76,18 @@ pivot_longer_to_segment <- function(pdf_data, segment) {
 #'
 #' @param pdf_data a data frame output of `pdftools::pdf_data()`.
 #' @param segment either "word", "font" or "line", the text segment to assemble.
+#' @param chunk either "page" or "sequence", the text segment to assemble.
 #'
 #' @return a character vector being the document part of the prompt 
 #' @export
-#' @importFrom purrr map
-lmdx_document <- function(pdf_data, segment) {
+#' @importFrom purrr map flatten_dfc
+lmdx_document <- function(pdf_data, segment, chunk = "page") {
   stopifnot("segment is not supported" = segment %in% c("word", "font", "line"))
-  is_multi_page <- rlang::is_list(pdf_data)
-  if (is_multi_page) {
-    txt_segment <- map(pdf_data, pivot_longer_to_segment, segment)
-    document <- map(txt_segment, ~glue::glue("<Document>\n{.x}\n</Document>\n"))
-  } else {
-    txt_segment <- pivot_longer_to_segment(pdf_data, segment)
-    document <- glue::glue("<Document>\n{txt_segment}\n</Document>\n")
-  }
+  stopifnot("chunk is not supported" = chunk %in% c("page", "sequence"))
+  txt_segment <- switch(chunk,
+        "page" = map(pdf_data, pivot_longer_to_segment, segment),
+        "sequence" = pivot_to_short_segment(purrr::flatten_dfc(pdf_data) , segment)
+  )
+  document <- map(txt_segment, ~glue::glue("<Document>\n{.x}\n</Document>\n"))
   document
 }

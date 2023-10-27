@@ -4,12 +4,14 @@
 \alias{lmdx_document}
 \title{Turn a pdf_data into LMDX prompt <document> part}
 \usage{
-lmdx_document(pdf_data, segment)
+lmdx_document(pdf_data, segment, chunk = "page")
 }
 \arguments{
 \item{pdf_data}{a data frame output of `pdftools::pdf_data()`.}
 
 \item{segment}{either "word", "font" or "line", the text segment to assemble.}
+
+\item{chunk}{either "page" or "sequence", the text segment to assemble.}
 }
 \value{
 a character vector being the document part of the prompt
