@@ -4,7 +4,7 @@
 \alias{lmdx_prompt}
 \title{Turn a pdf document into LMDX prompt}
 \usage{
-lmdx_prompt(document, taxonomy, segment = "word", chunk = "page")
+lmdx_prompt(document, taxonomy, segment = "word", chunk = "page", max_lines)
 }
 \arguments{
 \item{document}{a pdf document}
@@ -15,8 +15,10 @@ lmdx_prompt(document, taxonomy, segment = "word", chunk = "page")
 
 \item{chunk}{either "page" or "sequence", the chunking of the text. If `page`, the default,
 the original page chunk is used, with the risk of out of sequence tokens if the page 
-contains a lot of words. if `sequence`, the text is chunked into 400 lines to fit in the LLM
-max-sequence length}
+contains a lot of words. if `sequence`, the text is chunked into lines to fit in the LLM
+max-sequence length.}
+
+\item{max_lines}{length of the chunk in lines in case of chunk = "sequence".}
 }
 \value{
 the prompt to pass to the LLM
