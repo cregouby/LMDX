@@ -7,11 +7,11 @@
 pivot_to_short_segment(pdf_data_df, segment, max_lines)
 }
 \arguments{
+\item{pdf_data_df}{a data frame of the flatten output of  `pdftools::pdf_data()`}
+
 \item{segment}{either "word" , "font", or "line", the text segment to assemble}
 
 \item{max_lines}{the text segment max chunk size in lines}
-
-\item{pdf_data}{a data frame output of `pdftools::pdf_data()`}
 }
 \value{
 the list of text formatted in wide format chunk-ed into no more than `max_lines`.

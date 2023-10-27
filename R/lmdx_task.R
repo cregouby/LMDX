@@ -3,16 +3,15 @@
 #' @param taxonomy either 
 #'   - a json representing the schema of the entity to extract
 #'   - a value within `VRDU_Ad_Buy`, `VRDU_Registration` or `CORD` for the schema used in original paper.
-#' @param ... unused 
 #'
 #' @return a character vector being the task part of the prompt
 #' @export
-lmdx_task <- function(taxonomy, ...) {
+lmdx_task <- function(taxonomy) {
   UseMethod("lmdx_task")
 }
 
 #' @export
-lmdx_task.default <- function(taxonomy, ...) {
+lmdx_task.default <- function(taxonomy) {
   rlang::abort(paste0(taxonomy, " is not recognized as a supported taxonomy"))
 }
 

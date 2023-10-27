@@ -2,7 +2,7 @@
 #' 
 #' 
 #'
-#' @param pdf_data a data frame output of `pdftools::pdf_data()`
+#' @param pdf_data_df a data frame of the flatten output of  `pdftools::pdf_data()`
 #' @param segment either "word" , "font", or "line", the text segment to assemble
 #' @param max_lines the text segment max chunk size in lines
 #'

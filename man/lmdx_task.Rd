@@ -4,14 +4,12 @@
 \alias{lmdx_task}
 \title{Turn a json taxonomy into LMDX prompt <task> part}
 \usage{
-lmdx_task(taxonomy, ...)
+lmdx_task(taxonomy)
 }
 \arguments{
 \item{taxonomy}{either 
 - a json representing the schema of the entity to extract
 - a value within `VRDU_Ad_Buy`, `VRDU_Registration` or `CORD` for the schema used in original paper.}
-
-\item{...}{unused}
 }
 \value{
 a character vector being the task part of the prompt
