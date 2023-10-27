@@ -4,7 +4,7 @@
 \alias{pivot_to_short_segment}
 \title{Chunk a pdf_data long format into a list of wide format per segment.}
 \usage{
-pivot_to_short_segment(pdf_data_df, segment, max_lines = 100)
+pivot_to_short_segment(pdf_data_df, segment, max_lines)
 }
 \arguments{
 \item{segment}{either "word" , "font", or "line", the text segment to assemble}
@@ -14,7 +14,7 @@ pivot_to_short_segment(pdf_data_df, segment, max_lines = 100)
 \item{pdf_data}{a data frame output of `pdftools::pdf_data()`}
 }
 \value{
-the list of small text formatted in wide format of no more than 100 lines.
+the list of text formatted in wide format chunk-ed into no more than `max_lines`.
 }
 \description{
 Chunk a pdf_data long format into a list of wide format per segment.

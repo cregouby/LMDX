@@ -11,7 +11,7 @@
 #'
 #' @importFrom dplyr mutate group_by summarize lag lead %>%
 #' @importFrom tidyr replace_na
-pivot_to_short_segment <- function(pdf_data_df, segment, max_lines = 100) {
+pivot_to_short_segment <- function(pdf_data_df, segment, max_lines) {
   pivot_lts <- pivot_longer_to_segment(pdf_data_df, segment)
   n_lines <- stringr::str_count(pivot_lts, "\\n")
   n_words <- stringr::str_count(pivot_lts, "( |\\n)")
@@ -77,16 +77,21 @@ pivot_longer_to_segment <- function(pdf_data, segment) {
 #' @param pdf_data a data frame output of `pdftools::pdf_data()`.
 #' @param segment either "word", "font" or "line", the text segment to assemble.
 #' @param chunk either "page" or "sequence", the text segment to assemble.
+#' @param max_lines the text segment chunk size in lines (for chunk = "sequence")
 #'
-#' @return a character vector being the document part of the prompt 
+#' @return the list of text formatted in wide format chunk-ed into no more than `max_lines`. 
+#'
+#' @return a character vector being the document part of the prompt. The size depends on 
+#'   `chunk` strategy.
 #' @export
 #' @importFrom purrr map flatten_dfc
-lmdx_document <- function(pdf_data, segment, chunk = "page") {
+lmdx_document <- function(pdf_data, segment, chunk = "page", max_lines = 100L) {
   stopifnot("segment is not supported" = segment %in% c("word", "font", "line"))
   stopifnot("chunk is not supported" = chunk %in% c("page", "sequence"))
+  stopifnot("`max_line` shall be an integer" = is.integer(max_lines))
   txt_segment <- switch(chunk,
         "page" = map(pdf_data, pivot_longer_to_segment, segment),
-        "sequence" = pivot_to_short_segment(purrr::flatten_dfc(pdf_data) , segment)
+        "sequence" = pivot_to_short_segment(purrr::flatten_dfc(pdf_data), segment, max_lines)
   )
   document <- map(txt_segment, ~glue::glue("<Document>\n{.x}\n</Document>\n"))
   document
