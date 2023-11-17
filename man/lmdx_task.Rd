@@ -4,12 +4,15 @@
 \alias{lmdx_task}
 \title{Turn a json taxonomy into LMDX prompt <task> part}
 \usage{
-lmdx_task(taxonomy)
+lmdx_task(taxonomy, into_yaml)
 }
 \arguments{
 \item{taxonomy}{either 
 - a json representing the schema of the entity to extract
 - a value within `VRDU_Ad_Buy`, `VRDU_Registration` or `CORD` for the schema used in original paper.}
+
+\item{into_yaml}{shall we let the taxonomy in json (`FALSE`) or turn it into YAML encoding 
+in the prompt (`TRUE`)}
 }
 \value{
 a character vector being the task part of the prompt

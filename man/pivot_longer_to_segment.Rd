@@ -9,7 +9,8 @@ pivot_longer_to_segment(pdf_data, segment)
 \arguments{
 \item{pdf_data}{a data frame output of `pdftools::pdf_data()`}
 
-\item{segment}{either "word" , "font", or "line", the text segment to assemble}
+\item{segment}{layout information granularity. either "word", "font" or "line", the text
+segment to assemble for each layout information.}
 }
 \value{
 the text segmented in wide format, trailed with the segment layout values in the format "x|y".

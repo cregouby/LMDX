@@ -3,30 +3,37 @@
 #' @param taxonomy either 
 #'   - a json representing the schema of the entity to extract
 #'   - a value within `VRDU_Ad_Buy`, `VRDU_Registration` or `CORD` for the schema used in original paper.
+#' @param into_yaml shall we let the taxonomy in json (`FALSE`) or turn it into YAML encoding 
+#'  in the prompt (`TRUE`)
 #'
 #' @return a character vector being the task part of the prompt
 #' @export
-lmdx_task <- function(taxonomy) {
+lmdx_task <- function(taxonomy, into_yaml) {
   UseMethod("lmdx_task")
 }
 
 #' @export
-lmdx_task.default <- function(taxonomy) {
+lmdx_task.default <- function(taxonomy, into_yaml) {
   rlang::abort(paste0(taxonomy, " is not recognized as a supported taxonomy"))
 }
 
 #' @export
-lmdx_task.json <- function(taxonomy) {
+lmdx_task.json <- function(taxonomy, into_yaml = FALSE) {
   stopifnot(
     "taxonomy is not recognized as a valid json" = jsonlite::validate(taxonomy)
   )
   prompt <-
     "From the document, extract the text values and tags of the following entities:"
-  glue::glue("<Task>\n{prompt}\n{jsonlite::minify(taxonomy)}\n</Task>\n<Extraction>\n")
+  if (into_yaml) {
+    entities <- yaml::as.yaml(fromJson(taxonomy))
+  } else {
+    entities <- jsonlite::minify(taxonomy)
+  }
+  glue::glue("<Task>\n{prompt}\n{entities}\n</Task>\n<Extraction>\n")
 }
 
 #' @export
-lmdx_task.character <- function(taxonomy) {
+lmdx_task.character <- function(taxonomy, into_yaml = FALSE) {
   stopifnot(
     "taxonomy is not recognized within ['CORD', 'VRDU_Ad_Buy', 'VRDU_Registration']" = taxonomy %in% c("CORD", "VRDU_Ad_Buy", "VRDU_Registration")
   )
@@ -38,7 +45,13 @@ lmdx_task.character <- function(taxonomy) {
     "VRDU_Ad_Buy" = jsonlite::minify(vrdu_ad_buy_json),
     "VRDU_Registration" = jsonlite::minify(vrdu_registration_json),
   )
-  glue::glue("<Task>\n{prompt}\n{json}\n</Task>\n<Extraction>\n")
+  if (into_yaml) {
+    entities <- yaml::as.yaml(fromJson(json))
+  } else {
+    entities <- json
+  }
+    
+  glue::glue("<Task>\n{prompt}\n{entities}\n</Task>\n<Extraction>\n")
 }
 
 cord_json <- '{

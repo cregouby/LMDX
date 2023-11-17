@@ -9,7 +9,8 @@ pivot_to_short_segment(pdf_data_df, segment, max_lines)
 \arguments{
 \item{pdf_data_df}{a data frame of the flatten output of  `pdftools::pdf_data()`}
 
-\item{segment}{either "word" , "font", or "line", the text segment to assemble}
+\item{segment}{layout information granularity. either "word", "font" or "line", the text
+segment to assemble for each layout information.}
 
 \item{max_lines}{the text segment max chunk size in lines}
 }

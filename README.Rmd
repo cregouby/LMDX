@@ -69,7 +69,7 @@ prompt <- lmdx_prompt(document, taxonomy, segment = "line")
 
 The usual way for this is to call an LLM model served online. We use {chattr} package for that, as it also includes a local model usage capability.
 
-We query 16 generation of the model with a temperature of 0.5.
+We query 16 generation of the model with a **temperature of 0.5**.
 
 ```{r eval=FALSE}
 library(chattr)
@@ -84,6 +84,7 @@ response <- ch_submit_job(
 This consists in decoding the output and parsing it to a majority-vote engine : 
 
 ```{r eval=FALSE}
+# response
 r_reference_card_df <- majority_vote(decode_all_sample(response))
 ```
 

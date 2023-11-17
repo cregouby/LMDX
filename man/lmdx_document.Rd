@@ -9,7 +9,8 @@ lmdx_document(pdf_data, segment, chunk = "page", max_lines = 100L)
 \arguments{
 \item{pdf_data}{a data frame output of `pdftools::pdf_data()`.}
 
-\item{segment}{either "word", "font" or "line", the text segment to assemble.}
+\item{segment}{layout information granularity. either "word", "font" or "line", the text
+segment to assemble for each layout information.}
 
 \item{chunk}{either "page" or "sequence", the text segment to assemble.}
 

@@ -1,9 +1,9 @@
 #' Chunk a pdf_data long format into a list of wide format per segment.
 #' 
 #' 
-#'
 #' @param pdf_data_df a data frame of the flatten output of  `pdftools::pdf_data()`
-#' @param segment either "word" , "font", or "line", the text segment to assemble
+#' @param segment layout information granularity. either "word", "font" or "line", the text
+#'  segment to assemble for each layout information.
 #' @param max_lines the text segment max chunk size in lines
 #'
 #' @return the list of text formatted in wide format chunk-ed into no more than `max_lines`. 
@@ -27,7 +27,8 @@ pivot_to_short_segment <- function(pdf_data_df, segment, max_lines) {
 #' Turn a pdf_data long format into wide format per segment
 #'
 #' @param pdf_data a data frame output of `pdftools::pdf_data()`
-#' @param segment either "word" , "font", or "line", the text segment to assemble
+#' @param segment layout information granularity. either "word", "font" or "line", the text
+#'  segment to assemble for each layout information.
 #'
 #' @return the text segmented in wide format, trailed with the segment layout values in the format "x|y".
 #' @export
@@ -75,7 +76,8 @@ pivot_longer_to_segment <- function(pdf_data, segment) {
 #' Turn a pdf_data into LMDX prompt <document> part
 #'
 #' @param pdf_data a data frame output of `pdftools::pdf_data()`.
-#' @param segment either "word", "font" or "line", the text segment to assemble.
+#' @param segment layout information granularity. either "word", "font" or "line", the text
+#'  segment to assemble for each layout information.
 #' @param chunk either "page" or "sequence", the text segment to assemble.
 #' @param max_lines the text segment chunk size in lines (for chunk = "sequence")
 #'
