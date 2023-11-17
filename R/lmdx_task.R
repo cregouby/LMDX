@@ -25,7 +25,7 @@ lmdx_task.json <- function(taxonomy, into_yaml = FALSE) {
   prompt <-
     "From the document, extract the text values and tags of the following entities:"
   if (into_yaml) {
-    entities <- yaml::as.yaml(fromJson(taxonomy))
+    entities <- glue::glue("```yaml\n{yaml::as.yaml(jsonlite::fromJSON(taxonomy))}\n```")
   } else {
     entities <- jsonlite::minify(taxonomy)
   }
@@ -46,7 +46,7 @@ lmdx_task.character <- function(taxonomy, into_yaml = FALSE) {
     "VRDU_Registration" = jsonlite::minify(vrdu_registration_json),
   )
   if (into_yaml) {
-    entities <- yaml::as.yaml(fromJson(json))
+    entities <- glue::glue("```yaml\n{yaml::as.yaml(jsonlite::fromJSON(json))}\n```")
   } else {
     entities <- json
   }
