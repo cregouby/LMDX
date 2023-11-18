@@ -42,7 +42,6 @@
 lmdx_prompt <- function(document, taxonomy, segment = "word", chunk = "page", max_lines = NULL) {
   stopifnot("only pdf document is supported" = fs::path_ext(document) == "pdf")
   stopifnot("cannot find the document" = fs::file_exists(document))
-  stopifnot("`chunk mode='sequence'` expect a value for `max_line`" = (chunk = "sequence") == "pdf")
   if (segment == "font") {
     pdf_data <- pdftools::pdf_data(document, font_info = TRUE)
   } else {

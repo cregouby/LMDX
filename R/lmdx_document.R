@@ -90,7 +90,10 @@ pivot_longer_to_segment <- function(pdf_data, segment) {
 lmdx_document <- function(pdf_data, segment, chunk = "page", max_lines = 100L) {
   stopifnot("segment is not supported" = segment %in% c("word", "font", "line"))
   stopifnot("chunk is not supported" = chunk %in% c("page", "sequence"))
-  stopifnot("`max_line` shall be an integer" = is.integer(max_lines))
+  if (chunk == "sequence") {
+    stopifnot("`chunk mode='sequence'` expect a value for `max_line`" =  !is.null(max_lines))
+    stopifnot("`max_line` shall be an integer" = is.integer(max_lines))
+  }
   txt_segment <- switch(chunk,
         "page" = map(pdf_data, pivot_longer_to_segment, segment),
         "sequence" = pivot_to_short_segment(purrr::flatten_dfc(pdf_data), segment, max_lines)

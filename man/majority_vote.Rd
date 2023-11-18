@@ -2,7 +2,7 @@
 % Please edit documentation in R/lmdx_decode.R
 \name{majority_vote}
 \alias{majority_vote}
-\title{Perfrom majority vote on each and every entity of the taxonomy}
+\title{Perform majority vote on each and every entity of the taxonomy}
 \usage{
 majority_vote(response_df)
 }
@@ -14,5 +14,5 @@ a single line dataframe with the same columns as response_df aggregating
  the most frequent value of each column.
 }
 \description{
-Perfrom majority vote on each and every entity of the taxonomy
+Perform majority vote on each and every entity of the taxonomy
 }

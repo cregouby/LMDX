@@ -19,13 +19,13 @@ test_that("remove_layout works", {
   expect_true(is.data.frame(removed_layout))
 })
 
-test_that("decode_all_sample works", {
-  expect_error(decoded <- decode_all_sample(response), 
+test_that("decode_json_result works", {
+  expect_error(decoded <- decode_json_result(response), 
                NA)
   expect_true(is.data.frame(decoded ))
 })
 
 test_that("majority_vote works", {
-  expect_error(majority_vote(decode_all_sample(response)), 
+  expect_error(majority_vote(decode_json_result(response)), 
                NA)
 })

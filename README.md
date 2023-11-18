@@ -83,5 +83,5 @@ This consists in decoding the output and parsing it to a majority-vote
 engine :
 
 ``` r
-r_reference_card_df <- majority_vote(decode_all_sample(response))
+r_reference_card_df <- majority_vote(decode_json_result(response))
 ```
