@@ -6,11 +6,17 @@
 #'  present in the provided taxonomy.
 #'  
 #' @section Chunking and segmentation strategies:
-#'  In order to fit the maximum input token limitation of the model you use, multiple `chunk`
+#'  At the time of chunking the text out of the document, you should take care of two limitations of the model :
+#'  1. The entire prompt ( document and taxonomy) shall fit in the maximum input tokens that the model can
+#'   support per query.
+#'  2. All the feature extracted in the answer, encoded in the json schema you provide shall fit in the 
+#'   model maximum output tokens.
+#'  
+#'  In order to conform to the maximum input token limitation of the model you use, multiple `chunk`
 #'   strategy are available : 
-#'   `page`: (default) the pdf is chunked in it's original page. This is recommended if
+#'   - `page`: (default) the pdf is chunked in it's original page. This is recommended if
 #'    the page content is not too large.
-#'   `sequence` : chunk every a sequence of `max_lines` lines. This may prevent the model
+#'   - `sequence` : chunk every a sequence of `max_lines` lines. This may prevent the model
 #'    to reconstruct the hierarchy 
 #'   in the ontology as you may chunk in the middle of a paragraph.
 #'   
@@ -29,23 +35,34 @@
 #' @param taxonomy an entity taxonomy to extract from the document.
 #' @param segment layout information granularity, either `word`, `font` or `line`.
 #'   Parameter passed to `lmdx_document()` function.
-#' @param chunk either "page" or "sequence", the chunking of the text. If `page`, the default,
-#' the original page chunk is used, with the risk of input tokens exceeding the model capacity
-#' if the page contains a lot of words. if `sequence`, the text is chunked into lines to fit in the LLM
+#' @param chunk either `page` or `sequence` for sequence of lines, the chunking of the text. If `page`, the default,
+#' the document is chunked per page, with the risk of input tokens exceeding the model capacity
+#' if the page contains a lot of words. If `sequence`, the text is chunked into `max_lines` lines to fit in the LLM
 #' max-sequence length.
 #' @param max_lines length of the chunk in lines in case of chunk = "sequence".
+#' @param into_yaml shall we include the taxonomy in json format (`FALSE`), the default or turn it into YAML encoding 
+#'  in the prompt (`TRUE`).
 #'
-#' @return the prompt to pass to the LLM
+#' @return the prompt to pass to the LLM  and a console message about its length.
 #' @export
 #' @importFrom pdftools pdf_data
+#' @importFrom purrr map
 #' @importFrom glue glue
-lmdx_prompt <- function(document, taxonomy, segment = "word", chunk = "page", max_lines = NULL) {
+#' @importFrom rlang warn inform
+lmdx_prompt <- function(document, taxonomy, segment = "word", chunk = "page", max_lines = NULL, into_yaml = FALSE) {
   stopifnot("only pdf document is supported" = fs::path_ext(document) == "pdf")
   stopifnot("cannot find the document" = fs::file_exists(document))
   if (segment == "font") {
-    pdf_data <- pdftools::pdf_data(document, font_info = TRUE)
+    pdf_data <- pdf_data(document, font_info = TRUE)
   } else {
-    pdf_data <- pdftools::pdf_data(document)
+    pdf_data <- pdf_data(document)
   }
-  map(lmdx_document(pdf_data, segment, chunk, max_lines), ~glue::glue("{.x}{lmdx_task(taxonomy)}"))
+  prompt <- map(lmdx_document(pdf_data, segment, chunk, max_lines), ~glue::glue("{.x}\n{lmdx_task(taxonomy, into_yaml)}"))
+  prompt_length <- max(stringr::str_length(prompt))
+  if (prompt_length > 2500) {
+    warn(glue("Max prompt length is {prompt_length} characters, It is recommended to change your chunking strategy."))
+  } else {
+    inform(glue("Max prompt length is {prompt_length} characters."))
+  }
+  prompt
 }

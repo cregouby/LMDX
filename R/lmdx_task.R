@@ -3,8 +3,8 @@
 #' @param taxonomy either 
 #'   - a json representing the schema of the entity to extract
 #'   - a value within `VRDU_Ad_Buy`, `VRDU_Registration` or `CORD` for the schema used in original paper.
-#' @param into_yaml shall we let the taxonomy in json (`FALSE`) or turn it into YAML encoding 
-#'  in the prompt (`TRUE`)
+#' @param into_yaml shall we include the taxonomy in json format (`FALSE`), the default or turn it into YAML encoding 
+#'  in the prompt (`TRUE`).
 #'
 #' @return a character vector being the task part of the prompt
 #' @export
@@ -23,7 +23,7 @@ lmdx_task.json <- function(taxonomy, into_yaml = FALSE) {
     "taxonomy is not recognized as a valid json" = jsonlite::validate(taxonomy)
   )
   prompt <-
-    "From the document, extract the text values and tags of the following entities:"
+    "From the document, extract the following entities with Named Entity Recognition and format result into:"
   if (into_yaml) {
     entities <- glue::glue("```yaml\n{yaml::as.yaml(jsonlite::fromJSON(taxonomy))}\n```")
   } else {

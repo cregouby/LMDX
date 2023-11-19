@@ -51,7 +51,7 @@ test_that("pivot_to_short_segment works for line", {
   expect_error(pivoted_data <- pivot_to_short_segment(pdf_data[[2]], segment = "line", max_lines = 100), 
                NA)
   expect_type(pivoted_data, "character")
-  # 173 lines gives 2 chunks of 100 words
+  # 173 lines gives 2 chunks of 100 lines
   expect_length(pivoted_data, 2L)
 })
 

@@ -11,8 +11,8 @@ lmdx_task(taxonomy, into_yaml)
 - a json representing the schema of the entity to extract
 - a value within `VRDU_Ad_Buy`, `VRDU_Registration` or `CORD` for the schema used in original paper.}
 
-\item{into_yaml}{shall we let the taxonomy in json (`FALSE`) or turn it into YAML encoding 
-in the prompt (`TRUE`)}
+\item{into_yaml}{shall we include the taxonomy in json format (`FALSE`), the default or turn it into YAML encoding 
+in the prompt (`TRUE`).}
 }
 \value{
 a character vector being the task part of the prompt

@@ -9,7 +9,8 @@ lmdx_prompt(
   taxonomy,
   segment = "word",
   chunk = "page",
-  max_lines = NULL
+  max_lines = NULL,
+  into_yaml = FALSE
 )
 }
 \arguments{
@@ -20,15 +21,18 @@ lmdx_prompt(
 \item{segment}{layout information granularity, either `word`, `font` or `line`.
 Parameter passed to `lmdx_document()` function.}
 
-\item{chunk}{either "page" or "sequence", the chunking of the text. If `page`, the default,
-the original page chunk is used, with the risk of input tokens exceeding the model capacity
-if the page contains a lot of words. if `sequence`, the text is chunked into lines to fit in the LLM
+\item{chunk}{either `page` or `sequence` for sequence of lines, the chunking of the text. If `page`, the default,
+the document is chunked per page, with the risk of input tokens exceeding the model capacity
+if the page contains a lot of words. If `sequence`, the text is chunked into `max_lines` lines to fit in the LLM
 max-sequence length.}
 
 \item{max_lines}{length of the chunk in lines in case of chunk = "sequence".}
+
+\item{into_yaml}{shall we include the taxonomy in json format (`FALSE`), the default or turn it into YAML encoding 
+in the prompt (`TRUE`).}
 }
 \value{
-the prompt to pass to the LLM
+the prompt to pass to the LLM  and a console message about its length.
 }
 \description{
 Turn a pdf document into LMDX prompt
@@ -40,11 +44,17 @@ Turn a pdf document into LMDX prompt
 }
 \section{Chunking and segmentation strategies}{
 
- In order to fit the maximum input token limitation of the model you use, multiple `chunk`
+ At the time of chunking the text out of the document, you should take care of two limitations of the model :
+ 1. The entire prompt ( document and taxonomy) shall fit in the maximum input tokens that the model can
+  support per query.
+ 2. All the feature extracted in the answer, encoded in the json schema you provide shall fit in the 
+  model maximum output tokens.
+ 
+ In order to conform to the maximum input token limitation of the model you use, multiple `chunk`
   strategy are available : 
-  `page`: (default) the pdf is chunked in it's original page. This is recommended if
+  - `page`: (default) the pdf is chunked in it's original page. This is recommended if
    the page content is not too large.
-  `sequence` : chunk every a sequence of `max_lines` lines. This may prevent the model
+  - `sequence` : chunk every a sequence of `max_lines` lines. This may prevent the model
    to reconstruct the hierarchy 
   in the ontology as you may chunk in the middle of a paragraph.
   
